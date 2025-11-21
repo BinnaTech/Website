@@ -176,18 +176,46 @@
         </div>
       </div>
       
-      <div class="mt-8 p-6 bg-gradient-to-r from-indigo-600 to-slate-700 rounded-2xl text-center">
-        <h4 class="text-xl font-bold text-white mb-4">👨‍⚕️ مشاوره پزشکی</h4>
-        <p class="text-indigo-100 mb-6 leading-relaxed">می‌خواهید توسط پزشک ویزیت شوید؟</p>
-        <div class="space-y-3">
-          <button class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105">
+      <div class="mt-8 p-6 bg-gradient-to-r from-indigo-600 to-slate-700 rounded-2xl">
+        <div class="flex items-center justify-between cursor-pointer" onclick="toggleDoctorSection()">
+          <div>
+            <h4 class="text-xl font-bold text-white">مشاوره پزشکی</h4>
+            <p class="text-indigo-100">می‌خواهید توسط پزشک ویزیت شوید؟</p>
+          </div>
+          <svg id="toggleArrow" class="w-6 h-6 text-white transition-transform duration-300 transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </div>
+        <div id="doctorContent" class="hidden mt-6 space-y-3">
+          <button onclick="openDoctorList()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105">
             ✅ بله، می‌خواهم پزشک پیدا کنم
           </button>
-          <button class="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105">
+          <button onclick="closeDoctorSection()" class="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105">
             ❌ نه، تشکر
           </button>
         </div>
       </div>
+      
+      <script>
+        function toggleDoctorSection() {
+          const content = document.getElementById('doctorContent');
+          const arrow = document.getElementById('toggleArrow');
+          content.classList.toggle('hidden');
+          arrow.style.transform = content.classList.contains('hidden') ? 'rotate(0)' : 'rotate(180deg)';
+        }
+        
+        function closeDoctorSection() {
+          const content = document.getElementById('doctorContent');
+          const arrow = document.getElementById('toggleArrow');
+          content.classList.add('hidden');
+          arrow.style.transform = 'rotate(0)';
+        }
+        
+        function openDoctorList() {
+          const listPath = '../attached_assets/list.html';
+          window.open(listPath, '_blank');
+        }
+      </script>
     </div>
   </div>
 </body>
