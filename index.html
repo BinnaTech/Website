@@ -8,7 +8,7 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap');
     * { font-family: 'Vazirmatn', 'Vazir', 'Tahoma', sans-serif; }
-    
+
     .hero-video {
         filter: sepia(100%) saturate(150%) hue-rotate(200deg) brightness(0.7) contrast(1.3);
     }
@@ -20,8 +20,8 @@
 </head>
 <body class="h-full bg-gradient-to-br from-slate-900 via-gray-900 to-slate-900 text-white overflow-x-hidden">
 
-  <!-- Hero Section -->
-  <section id="hero-section" class="relative h-screen flex items-center justify-center overflow-hidden">
+  <!-- Hero Section with Video Background -->
+  <section id="hero-section" class="relative h-full min-h-screen flex items-center justify-center overflow-hidden">
 
     <!-- Video Background -->
     <div class="absolute inset-0 w-full h-full">
@@ -45,10 +45,10 @@
       </div>
     </div>
 
-    <!-- Gradient Overlay (دقیقاً مثل قبل) -->
+    <!-- دقیقاً همون گرادیان اصلی -->
     <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black opacity-50"></div>
 
-    <!-- Hero Content (دقیقاً مثل قبل) -->
+    <!-- دقیقاً همون متن اصلی -->
     <div class="relative z-10 text-center px-6 max-w-4xl mx-auto">
       <h1 id="hero-title" class="text-4xl md:text-6xl font-bold mb-6 text-shadow text-white">
         BinaTech<br>
@@ -56,9 +56,8 @@
       </h1>
     </div>
 
-    <!-- Scroll Indicator (فقط این قسمت تغییر کرده) -->
-    <div id="scroll-indicator" 
-         class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center cursor-pointer"
+    <!-- فقط این قسمت تغییر کرده: کلیک → language.html -->
+    <div id="scroll-indicator" class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center cursor-pointer"
          onclick="window.location.href='language.html'">
       <p class="text-white text-lg font-semibold mb-2 animate-pulse">Enter Website</p>
       <div class="animate-bounce">
@@ -67,20 +66,22 @@
         </svg>
       </div>
     </div>
+
   </section>
 
-  <!-- اسکریپت نگه داشتن آخرین فریم (اختیاری) -->
   <script>
+    // نگه داشتن آخرین فریم ویدیو (دقیقاً مثل نسخه اصلی)
     const video = document.getElementById('heroVideo');
     const canvas = document.getElementById('heroCanvas');
     const ctx = canvas.getContext('2d');
-
+    
     video.addEventListener('ended', () => {
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
       ctx.drawImage(video, 0, 0);
       video.style.display = 'none';
       canvas.classList.remove('hidden');
+      document.getElementById('scroll-indicator').classList.remove('hidden');
     });
   </script>
 </body>
