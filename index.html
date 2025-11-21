@@ -8,33 +8,81 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap');
     * { font-family: 'Vazirmatn', 'Vazir', 'Tahoma', sans-serif; }
-    body { margin: 0; padding: 0; background: #000; }
+    
     .hero-video {
       filter: sepia(100%) saturate(150%) hue-rotate(200deg) brightness(0.7) contrast(1.3);
     }
+    
+    .text-shadow {
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+    }
   </style>
 </head>
-<body class="h-screen relative overflow-hidden">
+<body class="h-full bg-black overflow-hidden">
 
-  <!-- Video Background -->
-  <div class="absolute inset-0 w-full h-full">
-    <video id="heroVideo" class="w-full h-full object-cover" autoplay muted playsinline loop>
-      <source src="https://raw.githubusercontent.com/megsciip3/bina-tech-site/main/2025-10-23%2010-56-05.mp4" type="video/mp4">
-    </video>
-    <canvas id="heroCanvas" class="hidden w-full h-full object-cover"></canvas>
-    <div id="fallback-bg" class="hidden w-full h-full bg-gradient-to-br from-slate-900 via-gray-900 to-slate-900 flex items-center justify-center">
-      <div class="text-center">
-        <div class="w-32 h-32 mx-auto mb-8 rounded-full bg-gradient-to-br from-indigo-600 to-slate-700 flex items-center justify-center">
-          <svg class="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
-          </svg>
+  <!-- Hero Section with Video Background -->
+  <section class="relative h-screen flex items-center justify-center overflow-hidden">
+
+    <!-- Video Background -->
+    <div class="absolute inset-0 w-full h-full">
+      <video id="heroVideo" class="w-full h-full object-cover hero-video" autoplay muted playsinline loop>
+        <source src="https://raw.githubusercontent.com/megsciip3/bina-tech-site/main/2025-10-23%2010-56-05.mp4" type="video/mp4">
+      </video>
+
+      <!-- Canvas for last frame (if needed) -->
+      <canvas id="heroCanvas" class="hidden w-full h-full object-cover"></canvas>
+
+      <!-- Fallback if video fails -->
+      <div id="fallback-bg" class="hidden w-full h-full bg-gradient-to-br from-slate-900 via-gray-900 to-slate-900 flex items-center justify-center">
+        <div class="text-center">
+          <div class="w-32 h-32 mx-auto mb-8 rounded-full bg-gradient-to-br from-indigo-600 to-slate-700 flex items-center justify-center">
+            <svg class="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+            </svg>
+          </div>
+          <p class="text-indigo-200">ویدیو در حال بارگذاری...</p>
         </div>
-        <p class="text-indigo-200">ویدیو در حال بارگذاری...</p>
       </div>
     </div>
-  </div>
 
-  <!-- Content -->
-  <div class="relative z-10 text-center px-6 max-w-4xl mx-auto h-full flex flex-col justify-center">
-    <h1 id="hero-title" class="text-4xl md:text-6xl font-bold mb-6 text-white">
-     
+    <!-- Dark overlay -->
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black opacity-60"></div>
+
+    <!-- Hero Content -->
+    <div class="relative z-10 text-center px-6 max-w-4xl mx-auto">
+      <h1 class="text-5xl md:text-7xl font-bold mb-6 text-shadow text-white leading-tight">
+        BinaTech<br>
+        <span class="text-2xl md:text-4xl text-indigo-300 block mt-4">
+          The AI Health Assistant for Eye Care
+        </span>
+      </h1>
+    </div>
+
+    <!-- Scroll Indicator - حالا به صفحه زبان می‌رود -->
+    <div id="scroll-indicator" 
+         class="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-center cursor-pointer animate-bounce"
+         onclick="window.location.href='language.html'">
+      <p class="text-white text-lg font-semibold mb-3 tracking-wider">Enter Website</p>
+      <svg class="w-10 h-10 text-white mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+      </svg>
+    </div>
+
+  </section>
+
+  <script>
+    // اختیاری: وقتی ویدیو تموم شد آخرین فریم رو نگه دار (مثل نسخه اصلی)
+    const video = document.getElementById('heroVideo');
+    const canvas = document.getElementById('heroCanvas');
+    const ctx = canvas.getContext('2d');
+
+    video.addEventListener('ended', () => {
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      ctx.drawImage(video, 0, 0);
+      video.style.display = 'none';
+      canvas.classList.remove('hidden');
+    });
+  </script>
+</body>
+</html>
