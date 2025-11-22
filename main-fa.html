@@ -259,6 +259,10 @@
       margin-top: 40px;
     }
 
+    .disease-cards a {
+      display: contents;
+    }
+
     .disease-card {
       background: #1a1a3e;
       color: white;
@@ -361,6 +365,7 @@
           </div>
           <button type="submit" class="form-submit">ورود</button>
         </form>
+        <button class="form-submit" style="background: #ef4444; margin-top: 15px;" onclick="logoutDoctor()">خروج</button>
       </div>
 
       <!-- Doctor Register -->
@@ -432,6 +437,7 @@
           </div>
           <button type="submit" class="form-submit">ورود</button>
         </form>
+        <button class="form-submit" style="background: #ef4444; margin-top: 15px;" onclick="logoutPatient()">خروج</button>
       </div>
 
       <!-- Patient Register -->
@@ -667,6 +673,20 @@
       setTimeout(() => {
         messageDiv.innerHTML = '';
       }, 5000);
+    }
+
+    function logoutDoctor() {
+      const sections = document.querySelectorAll('.form-section');
+      sections.forEach(s => s.classList.remove('active'));
+    }
+
+    function logoutPatient() {
+      const sections = document.querySelectorAll('.form-section');
+      sections.forEach(s => s.classList.remove('active'));
+      const report = document.getElementById('patient-report');
+      const loginForm = document.getElementById('patient-section').querySelector('form');
+      report.classList.add('hidden');
+      loginForm.classList.remove('hidden');
     }
   </script>
  </body>
