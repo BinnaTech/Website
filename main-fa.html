@@ -163,7 +163,8 @@
       border-radius: 15px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
       animation: slideDown 0.3s ease-in-out;
-      max-width: 1000px;
+      max-width: 1200px;
+      width: 90%;
     }
 
     .form-section.active { display: block; }
@@ -365,7 +366,38 @@
           </div>
           <button type="submit" class="form-submit">ورود</button>
         </form>
-        <button class="form-submit" style="background: #ef4444; margin-top: 15px;" onclick="logoutDoctor()">خروج</button>
+        <button id="doctor-logout-btn" class="form-submit" style="background: #ef4444; margin-top: 20px; display: none; width: 100%;" onclick="logoutDoctor()">خروج</button>
+      </div>
+
+      <!-- Doctor Dashboard (shown after login) -->
+      <div id="doctor-dashboard" class="tab-content" style="display: none;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+          <!-- Patient Records -->
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label>مشاهده پرونده بیماران</label>
+            <select id="patient-records-select" style="padding: 12px; border: 1px solid #444; border-radius: 8px; background: #0d0d2b; color: white; font-family: 'Vazirmatn', Tahoma, sans-serif; font-size: 1em;">
+              <option value="">انتخاب کنید</option>
+              <option value="patient1">بیمار ۱ - احمد محمدی</option>
+              <option value="patient2">بیمار ۲ - فاطمه علی‌پور</option>
+              <option value="patient3">بیمار ۳ - علی حسنی</option>
+              <option value="patient4">بیمار ۴ - مریم رضایی</option>
+              <option value="patient5">بیمار ۵ - محسن کریمی</option>
+            </select>
+          </div>
+
+          <!-- Smart Decision Support System -->
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label>سیستم پشتیبان تصمیم هوشمند</label>
+            <select id="disease-select" onchange="handleDiseaseSelection(this.value)" style="padding: 12px; border: 1px solid #444; border-radius: 8px; background: #0d0d2b; color: white; font-family: 'Vazirmatn', Tahoma, sans-serif; font-size: 1em;">
+              <option value="">انتخاب کنید</option>
+              <option value="retinopathy">رتینوپاتی دیابتی</option>
+              <option value="glaucoma">گلوکوم</option>
+              <option value="macular">دژنراسیون ماکولا</option>
+              <option value="cataract">آب سفید چشم</option>
+              <option value="dry-eye">خشکی چشم</option>
+            </select>
+          </div>
+        </div>
       </div>
 
       <!-- Doctor Register -->
@@ -437,7 +469,7 @@
           </div>
           <button type="submit" class="form-submit">ورود</button>
         </form>
-        <button class="form-submit" style="background: #ef4444; margin-top: 15px;" onclick="logoutPatient()">خروج</button>
+        <button id="patient-logout-btn" class="form-submit" style="background: #ef4444; margin-top: 20px; display: none; width: 100%;" onclick="logoutPatient()">خروج</button>
       </div>
 
       <!-- Patient Register -->
@@ -597,7 +629,15 @@
 
     function doctorLogin(event) {
       event.preventDefault();
-      window.open('https://huggingface.co/spaces/megsciip/ret', '_blank');
+      document.getElementById('doctor-logout-btn').style.display = 'block';
+      document.getElementById('doctor-login').style.display = 'none';
+      document.getElementById('doctor-dashboard').style.display = 'block';
+    }
+
+    function handleDiseaseSelection(value) {
+      if (value === 'retinopathy') {
+        window.open('https://binnatech.github.io/Website/retino.html', '_blank');
+      }
     }
 
     function registerDoctor(event) {
@@ -631,6 +671,7 @@
       const loginForm = event.target;
       const report = document.getElementById('patient-report');
       
+      document.getElementById('patient-logout-btn').style.display = 'block';
       loginForm.classList.add('hidden');
       report.classList.remove('hidden');
     }
@@ -676,11 +717,17 @@
     }
 
     function logoutDoctor() {
+      document.getElementById('doctor-logout-btn').style.display = 'none';
+      document.getElementById('doctor-login').style.display = 'block';
+      document.getElementById('doctor-dashboard').style.display = 'none';
+      document.getElementById('patient-records-select').value = '';
+      document.getElementById('disease-select').value = '';
       const sections = document.querySelectorAll('.form-section');
       sections.forEach(s => s.classList.remove('active'));
     }
 
     function logoutPatient() {
+      document.getElementById('patient-logout-btn').style.display = 'none';
       const sections = document.querySelectorAll('.form-section');
       sections.forEach(s => s.classList.remove('active'));
       const report = document.getElementById('patient-report');
